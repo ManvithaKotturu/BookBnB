@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build
+dist/
+build/
+
+# Local env files
+.env
+.env.local
+
+# Vite cache
+.vite/
