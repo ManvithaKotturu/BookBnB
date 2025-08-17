@@ -33,7 +33,7 @@ const seedBooksIfEmpty = async () => {
       user = new User({
         username: 'demoUser',
         email: 'demo@demo.com',
-        password: 'password123', // ⚠️ will be hashed
+        password: 'password123', // ⚠️ should be hashed in production
         firstName: 'Demo',
         lastName: 'User'
       });
@@ -101,7 +101,6 @@ const connectDB = async () => {
 
     // 👉 Run seeding after DB connects
     await seedBooksIfEmpty();
-
   } catch (err) {
     console.log('MongoDB connection error:', err.message);
     console.log('Please check your MongoDB connection or update config.env');
@@ -116,12 +115,12 @@ app.use('/api/books', require('./routes/books'));
 app.use('/api/loans', require('./routes/loans'));
 app.use('/api/users', require('./routes/users'));
 
-// Serve static assets if in production
+// 👉 Serve Vite static assets if in production
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
-  app.use(express.static('client/build'));
+  app.use(express.static(path.join(__dirname, 'client', 'dist')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
   });
 }
 
